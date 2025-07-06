@@ -1,1 +1,1 @@
-echo "# Monitoring Produksi Sarung Tangan" > README.md
+echo "# l" > README.md
