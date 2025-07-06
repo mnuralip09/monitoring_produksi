@@ -2,13 +2,13 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Data Produksi Sarung Tangan</title>
+  <title>Data Produksi (HTML + AJAX)</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
   <h3 class="mb-4">Data Produksi Sarung Tangan</h3>
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered">
     <thead class="table-dark">
       <tr>
         <th>No</th>
@@ -19,43 +19,36 @@
         <th>Pekerja</th>
       </tr>
     </thead>
-    <tbody id="tabel-data">
-      <tr><td colspan="6" class="text-center">Loading...</td></tr>
+    <tbody id="data-produksi">
+      <tr><td colspan="6" class="text-center">Memuat data...</td></tr>
     </tbody>
   </table>
 </div>
 
 <script>
-fetch('ambil_data.php')
-  .then(res => res.json())
-  .then(data => {
-    const tbody = document.getElementById('tabel-data');
-    tbody.innerHTML = ''; // kosongkan isi
+  fetch('ambil_data.php')
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.getElementById('data-produksi');
+      tbody.innerHTML = ''; // Kosongkan isi awal
 
-    if (data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
-      return;
-    }
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan=\"6\" class=\"text-center\">Tidak ada data</td></tr>';
+        return;
+      }
 
-    data.forEach((item, index) => {
-      const baris = `
-        <tr>
+      data.forEach((item, index) => {
+        const row = `<tr>
           <td>${index + 1}</td>
           <td>${item.tanggal}</td>
           <td>${item.shift}</td>
           <td>${item.jumlah}</td>
           <td>${item.jenis_produk}</td>
           <td>${item.pekerja}</td>
-        </tr>
-      `;
-      tbody.innerHTML += baris;
+        </tr>`;
+        tbody.innerHTML += row;
+      });
     });
-  })
-  .catch(error => {
-    document.getElementById('tabel-data').innerHTML = '<tr><td colspan="6" class="text-danger text-center">Gagal mengambil data</td></tr>';
-    console.error('Fetch error:', error);
-  });
 </script>
 </body>
 </html>
-
